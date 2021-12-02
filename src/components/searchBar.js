@@ -14,10 +14,11 @@ const SearchBar = () => {
     setSearchTerm(searchValue.current.value);
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="search-form">
       <input
         type="text"
         placeholder="Enter a movie name"
+        className="search-bar"
         ref={searchValue}
         onChange={searchMovies}
       ></input>

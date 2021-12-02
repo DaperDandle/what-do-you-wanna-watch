@@ -2,11 +2,11 @@ import React from "react";
 
 const SingleMovie = ({ desc, title, img, date }) => {
   return (
-    <div>
+    <div className="movie">
       <h2>{title}</h2>
       <img src={img} alt={title} />
       <p>{date}</p>
-      <p>{desc}</p>
+      <p className="description">{desc}</p>
     </div>
   );
 };
