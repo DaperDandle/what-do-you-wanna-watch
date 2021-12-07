@@ -10,6 +10,7 @@ const AppProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("a");
   // const [filter, setFilter] = useState("title");
   const [movies, setMovies] = useState([]);
+  const [myMovies, setMyMovies] = useState([]);
 
   const fetchMovies = useCallback(async () => {
     setLoading(true);
@@ -62,7 +63,14 @@ const AppProvider = ({ children }) => {
   }, [searchTerm, fetchMovies]);
   return (
     <AppContext.Provider
-      value={{ loading, searchTerm, setSearchTerm, /*setFilter,*/ movies }}
+      value={{
+        loading,
+        searchTerm,
+        setSearchTerm,
+        /*setFilter,*/ movies,
+        myMovies,
+        setMyMovies,
+      }}
     >
       {console.log(movies)}
       {children}
