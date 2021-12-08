@@ -3,15 +3,23 @@ import { useGlobalContext } from "../context";
 import SingleMovie from "./SingleMovie";
 
 const MyMovieList = () => {
-  const { MyMovieList } = useGlobalContext();
-  if (!MyMovieList) {
+  const { myMovies } = useGlobalContext();
+  if (!myMovies) {
     return <h1>No Movies Added</h1>;
   }
   return (
-    <section>
-      {MyMovieList.map((movie) => {
-        const { desc, title, img, date } = movie;
-        return <SingleMovie desc={desc} title={title} img={img} date={date} />;
+    <section className="movie-list">
+      {myMovies.map((movie) => {
+        const { id, desc, title, img, date } = movie;
+        return (
+          <SingleMovie
+            key={id}
+            desc={desc}
+            title={title}
+            img={img}
+            date={date}
+          />
+        );
       })}
     </section>
   );

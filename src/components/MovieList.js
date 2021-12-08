@@ -4,6 +4,7 @@ import SingleMovie from "./SingleMovie";
 
 const MovieList = () => {
   const { movies, loading } = useGlobalContext();
+
   if (movies.length < 1) {
     return <h1>No Movies Match Your Search</h1>;
   }

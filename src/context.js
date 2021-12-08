@@ -12,6 +12,7 @@ const AppProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
 
+  //
   const fetchMovies = useCallback(async () => {
     setLoading(true);
     try {
@@ -21,11 +22,13 @@ const AppProvider = ({ children }) => {
       const data = await response.json();
 
       const { results } = data;
+      // sort titles in alphabetical order
       results.sort((a, b) => {
-        const textA = a.title.toUpperCase();
-        const textB = b.title.toUpperCase();
-        return textA < textB ? -1 : textA > textB ? 1 : 0;
+        const titleA = a.title.toUpperCase();
+        const titleB = b.title.toUpperCase();
+        return titleA < titleB ? -1 : titleA > titleB ? 1 : 0;
       });
+      // make sure results is populated
       if (results) {
         const newMovies = results.map((movie) => {
           const { title, overview, poster_path, release_date, id } = movie;
@@ -39,7 +42,9 @@ const AppProvider = ({ children }) => {
         });
         setMovies(newMovies);
         setLoading(false);
-      } else {
+      }
+      // set array to empty if fetch fails and catch error in rendering movie list
+      else {
         setMovies([]);
         setLoading(false);
       }
@@ -49,6 +54,7 @@ const AppProvider = ({ children }) => {
     }
   }, [searchTerm]);
 
+  // get up to date image url from the api
   const fetchImgData = async () => {
     const response = await fetch(
       `https://api.themoviedb.org/3/configuration?api_key=${API_KEY}`
@@ -57,6 +63,7 @@ const AppProvider = ({ children }) => {
     imgUrl = `${data.images.secure_base_url}w300`;
   };
 
+  // fetch data when serach term changes
   useEffect(() => {
     fetchImgData();
     fetchMovies();
@@ -72,11 +79,11 @@ const AppProvider = ({ children }) => {
         setMyMovies,
       }}
     >
-      {console.log(movies)}
       {children}
     </AppContext.Provider>
   );
 };
 
+// custom hook to allow components to get the global context
 export const useGlobalContext = () => useContext(AppContext);
 export { AppContext, AppProvider };
