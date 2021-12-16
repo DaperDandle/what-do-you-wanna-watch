@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
+import NoImage from "../src/assets/images/image-not-found.svg";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=`;
@@ -32,9 +33,10 @@ const AppProvider = ({ children }) => {
       if (results) {
         const newMovies = results.map((movie) => {
           const { title, overview, poster_path, release_date, id } = movie;
+          const fullImgUrl = `${imgUrl}${poster_path}`;
           return {
             desc: overview,
-            img: `${imgUrl}${poster_path}`,
+            img: poster_path ? fullImgUrl : NoImage,
             date: release_date,
             title,
             id,
@@ -74,7 +76,9 @@ const AppProvider = ({ children }) => {
         loading,
         searchTerm,
         setSearchTerm,
-        /*setFilter,*/ movies,
+        /*setFilter,*/
+        movies,
+        setMovies,
         myMovies,
         setMyMovies,
       }}

@@ -29,7 +29,7 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
       window.localStorage.setItem("item", "id");
       //window.localStorage.setItem("myMovies", JSON.stringify(myMovies));
     } else {
-      console.log("already in list");
+      alert("already in list");
     }
   };
   return (
@@ -37,12 +37,14 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
       <h2>{title}</h2>
       <img src={img} alt={title} className="movie-img" />
       <p>{date}</p>
-      <button onClick={() => addMovieToList()}>+ Add to My Watchlist</button>
+      <button onClick={() => addMovieToList()} className="btn">
+        + Add to My Watchlist
+      </button>
       <p ref={descRef} className={descOpen ? "desc-open" : "desc"}>
         {desc}
       </p>
 
-      <button onClick={() => setDescOpen(!descOpen)}>
+      <button onClick={() => setDescOpen(!descOpen)} className="btn">
         {descOpen ? "Read Less" : "Read More"}
       </button>
     </div>

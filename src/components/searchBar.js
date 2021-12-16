@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { useGlobalContext } from "../context";
+import stringSimilarity from "string-similarity";
 
 const SearchBar = () => {
-  const { setSearchTerm } = useGlobalContext();
+  const { searchTerm, setSearchTerm, movies, setMovies } = useGlobalContext();
   const searchValue = useRef("");
   useEffect(() => {
     searchValue.current.focus();
@@ -12,6 +13,12 @@ const SearchBar = () => {
   };
   const searchMovies = () => {
     setSearchTerm(searchValue.current.value);
+    const movieTitles = movies.map((movie) => movie.title);
+    console.log(searchTerm);
+    const matches = stringSimilarity.findBestMatch(searchTerm, movieTitles);
+    console.log(matches);
+    //const newMovies = matches.sort((a, b) => a.rating - b.rating);
+    //setMovies(newMovies);
   };
   return (
     <form onSubmit={handleSubmit} className="search-form">
