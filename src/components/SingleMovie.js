@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useGlobalContext } from "../context";
 
 const SingleMovie = ({ id, desc, title, img, date }) => {
@@ -8,11 +8,15 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
 
   const descRef = useRef(null);
 
-  const checkDesc = (e) => {
-    console.log(e);
-    return e.offsetHeight < e.scrollHeight;
+  // check to see if there is more text to display
+  const checkDesc = (element) => {
+    console.log(element);
+    return element.scrollHeight > element.clientHeight;
   };
 
+  let addButton = checkDesc(descRef);
+
+  // add a movie to the list of my movies
   const addMovieToList = () => {
     const newListItem = {
       id: id,
@@ -21,7 +25,6 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
       img: img,
       date: date,
     };
-
     // check if the movie is already in the list
     if (!myMovies.some((e) => e.id === id)) {
       // copy existing items in myMovies and then add the new movie info
@@ -43,10 +46,11 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
       <p ref={descRef} className={descOpen ? "desc-open" : "desc"}>
         {desc}
       </p>
-
-      <button onClick={() => setDescOpen(!descOpen)} className="btn">
-        {descOpen ? "Read Less" : "Read More"}
-      </button>
+      {addButton && (
+        <button onClick={() => setDescOpen(!descOpen)} className="btn">
+          {descOpen ? "Read Less" : "Read More"}
+        </button>
+      )}
     </div>
   );
 };
