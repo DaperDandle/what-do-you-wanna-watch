@@ -3,7 +3,7 @@ import { useGlobalContext } from "../context";
 import stringSimilarity from "string-similarity";
 
 const SearchBar = () => {
-  const { searchTerm, setSearchTerm, movies, setMovies } = useGlobalContext();
+  const { searchTerm, setSearchTerm, movies } = useGlobalContext();
   const searchValue = useRef("");
   useEffect(() => {
     searchValue.current.focus();
