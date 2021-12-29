@@ -51,7 +51,7 @@ const AppProvider = ({ children }) => {
         setLoading(false);
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       setLoading(false);
     }
   }, [searchTerm]);
