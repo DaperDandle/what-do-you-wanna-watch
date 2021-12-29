@@ -1,6 +1,6 @@
 import React from "react";
-import SearchBar from "./components/SerachBar";
-import MovieList from "./components/MovieList";
+import SearchBar from "../components/SerachBar.js";
+import MovieList from "../components/MovieList.js";
 const Home = () => {
   return (
     <React.Fragment>
