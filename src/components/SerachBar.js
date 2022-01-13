@@ -14,8 +14,11 @@ const SearchBar = () => {
   const searchMovies = () => {
     setSearchTerm(searchValue.current.value);
     const movieTitles = movies.map((movie) => movie.title);
-    console.log(searchTerm);
     const matches = stringSimilarity.findBestMatch(searchTerm, movieTitles);
+    console.log(matches);
+    matches.ratings.sort((a, b) => {
+      return a.rating - b.rating;
+    });
     console.log(matches);
     //const newMovies = matches.sort((a, b) => a.rating - b.rating);
     //setMovies(newMovies);

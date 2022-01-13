@@ -1,21 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useGlobalContext } from "../context";
 
 const SingleMovie = ({ id, desc, title, img, date }) => {
+  const [showAddButton, setShowAddButton] = useState(false);
   const [descOpen, setDescOpen] = useState(false);
+
   // get movie list from context
   const { myMovies, setMyMovies } = useGlobalContext();
 
   const descRef = useRef(null);
+  const buttonRef = useRef(null);
 
   // check to see if there is more text to display
   const checkDesc = (element) => {
-    console.log(element);
-    return element.scrollHeight > element.clientHeight;
+    return element.current.scrollHeight > element.current.clientHeight;
   };
 
-  let addButton = checkDesc(descRef);
-
+  useEffect(() => {
+    setShowAddButton(checkDesc(descRef));
+    console.log(buttonRef.current);
+  }, []);
   // add a movie to the list of my movies
   const addMovieToList = () => {
     const newListItem = {
@@ -29,10 +33,11 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
     if (!myMovies.some((e) => e.id === id)) {
       // copy existing items in myMovies and then add the new movie info
       setMyMovies([...myMovies, newListItem]);
-      window.localStorage.setItem("item", "id");
+      alert(`${title} Added To List`);
+      // window.localStorage.setItem("item", "id");
       //window.localStorage.setItem("myMovies", JSON.stringify(myMovies));
     } else {
-      alert("already in list");
+      alert(`${title} already in list`);
     }
   };
   return (
@@ -43,13 +48,20 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
       <button onClick={() => addMovieToList()} className="btn">
         + Add to My Watchlist
       </button>
+
       <p ref={descRef} className={descOpen ? "desc-open" : "desc"}>
         {desc}
       </p>
-      {addButton && (
-        <button onClick={() => setDescOpen(!descOpen)} className="btn">
+      {showAddButton ? (
+        <button
+          ref={buttonRef}
+          onClick={() => setDescOpen(!descOpen)}
+          className="btn"
+        >
           {descOpen ? "Read Less" : "Read More"}
         </button>
+      ) : (
+        <div className="add-placholder"></div>
       )}
     </div>
   );
