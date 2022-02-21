@@ -9,6 +9,7 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("a");
+  const [page, setPage] = useState(1);
   // const [filter, setFilter] = useState("title");
   const [movies, setMovies] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
@@ -18,7 +19,7 @@ const AppProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${url}${searchTerm}&page=1&include_adult=false`
+        `${url}${searchTerm}&page=${page}&include_adult=false`
       );
       const data = await response.json();
 
@@ -54,7 +55,7 @@ const AppProvider = ({ children }) => {
       //console.log(e);
       setLoading(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, page]);
 
   // get up to date image url from the api
   const fetchImgData = async () => {
@@ -76,6 +77,8 @@ const AppProvider = ({ children }) => {
         loading,
         searchTerm,
         setSearchTerm,
+        page,
+        setPage,
         /*setFilter,*/
         movies,
         setMovies,

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useGlobalContext } from "../context";
 
 const SingleMovie = ({ id, desc, title, img, date }) => {
-  const [showAddButton, setShowAddButton] = useState(false);
+  const [showMoreButton, setShowMoreButton] = useState(false);
   const [descOpen, setDescOpen] = useState(false);
 
   // get movie list from context
@@ -17,8 +17,7 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
   };
 
   useEffect(() => {
-    setShowAddButton(checkDesc(descRef));
-    console.log(buttonRef.current);
+    setShowMoreButton(checkDesc(descRef));
   }, []);
   // add a movie to the list of my movies
   const addMovieToList = () => {
@@ -52,7 +51,7 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
       <p ref={descRef} className={descOpen ? "desc-open" : "desc"}>
         {desc}
       </p>
-      {showAddButton ? (
+      {showMoreButton && (
         <button
           ref={buttonRef}
           onClick={() => setDescOpen(!descOpen)}
@@ -60,8 +59,6 @@ const SingleMovie = ({ id, desc, title, img, date }) => {
         >
           {descOpen ? "Read Less" : "Read More"}
         </button>
-      ) : (
-        <div className="add-placholder"></div>
       )}
     </div>
   );

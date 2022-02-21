@@ -4,8 +4,8 @@ import SingleMovie from "./SingleMovie";
 
 const MyMovieList = () => {
   const { myMovies } = useGlobalContext();
-  if (!myMovies) {
-    return <h1>No Movies Added</h1>;
+  if (myMovies.length === 0) {
+    return <h1 className="title">No Movies Added</h1>;
   }
   return (
     <section className="movie-list">

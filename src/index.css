@@ -38,6 +38,7 @@ body {
 }
 .movie {
   width: 25vw;
+  min-height: 700px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -57,12 +58,19 @@ body {
   height: 90px;
   width: 90%;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .desc-open {
   height: auto;
   width: 90%;
+}
+
+.desc-open::-webkit-scrollbar {
+  display: none;
+}
+
+.add-btn-placeholder {
+  height: 30.66px;
 }
 
 .btn {
@@ -85,6 +93,14 @@ body {
   gap: 1em;
   justify-items: center;
   align-items: center;
+}
+
+.page-control {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+  padding: 5px;
+  width: 50%;
 }
 
 @media only screen and (max-width: 1100px) {

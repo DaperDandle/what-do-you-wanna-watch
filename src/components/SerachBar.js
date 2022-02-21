@@ -8,9 +8,6 @@ const SearchBar = () => {
   useEffect(() => {
     searchValue.current.focus();
   }, []);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   const searchMovies = () => {
     setSearchTerm(searchValue.current.value);
     const movieTitles = movies.map((movie) => movie.title);
@@ -24,7 +21,7 @@ const SearchBar = () => {
     //setMovies(newMovies);
   };
   return (
-    <form onSubmit={handleSubmit} className="search-form">
+    <form className="search-form">
       <input
         type="text"
         placeholder="Enter a movie name"
