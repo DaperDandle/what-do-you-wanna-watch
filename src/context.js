@@ -8,11 +8,11 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("a");
-  const [page, setPage] = useState(1);
-  // const [filter, setFilter] = useState("title");
   const [movies, setMovies] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("a");
+  const [page, setPage] = useState(1);
+  const [genre, setGenre] = useState("");
 
   //
   const fetchMovies = useCallback(async () => {
@@ -84,6 +84,8 @@ const AppProvider = ({ children }) => {
         setMovies,
         myMovies,
         setMyMovies,
+        genre,
+        setGenre,
       }}
     >
       {children}
