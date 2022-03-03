@@ -1,29 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
-//import { useGlobalContext } from "../context";
-
-const API_KEY = process.env.REACT_APP_API_KEY;
-const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`;
+import React, { useRef } from "react";
+import { useGlobalContext } from "../context";
 
 const Filter = () => {
-  const [genres, setGenres] = useState([]);
-  //const { genre, setGenre } = useGlobalContext();
-
-  const fetchGenres = useCallback(async () => {
-    const res = await fetch(url);
-    const data = await res.json();
-    console.log(data.genres);
-    setGenres(data.genres);
-  }, []);
-
-  useEffect(() => fetchGenres(), [fetchGenres]);
+  const { genres, setCurrentGenre } = useGlobalContext();
+  const genreValue = useRef("");
+  const chooseGenre = () => setCurrentGenre(genreValue.current.value);
   return (
     <section>
-      <select name="genre" id="genre">
+      <select name="genre" id="genre" ref={genreValue} onChange={chooseGenre}>
         {genres.map((genre) => {
           const { name, id } = genre;
           return (
-            <option value={name} key={id}>
-              {genre}
+            <option value={id} key={id}>
+              {name}
             </option>
           );
         })}

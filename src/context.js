@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import NoImage from "../src/assets/images/image-not-found.svg";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=`;
 let imgUrl = "";
 const AppContext = React.createContext();
 
@@ -12,14 +11,15 @@ const AppProvider = ({ children }) => {
   const [myMovies, setMyMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("a");
   const [page, setPage] = useState(1);
-  const [genre, setGenre] = useState("");
+  const [currentGenre, setCurrentGenre] = useState(28);
+  const [genres, setGenres] = useState([]);
 
   //
   const fetchMovies = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${url}${searchTerm}&page=${page}&include_adult=false`
+        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}&page=${page}&include_adult=false`
       );
       const data = await response.json();
 
@@ -32,18 +32,25 @@ const AppProvider = ({ children }) => {
       });
       // make sure results is populated
       if (results) {
-        const newMovies = results.map((movie) => {
-          const { title, overview, poster_path, release_date, id } = movie;
+        const unfilteredMovies = results.map((movie) => {
+          const { title, overview, poster_path, release_date, id, genre_ids } =
+            movie;
           const fullImgUrl = `${imgUrl}${poster_path}`;
           return {
             desc: overview,
             img: poster_path ? fullImgUrl : NoImage,
             date: release_date,
+            genres: genre_ids,
             title,
             id,
           };
         });
-        setMovies(newMovies);
+        // const filteredMovies = unfilteredMovies.filter((movie) => {
+        //   const { genres } = movie;
+        //   return genres.includes(currentGenre);
+        // });
+
+        setMovies(unfilteredMovies);
         setLoading(false);
       }
       // set array to empty if fetch fails and catch error in rendering movie list
@@ -66,6 +73,16 @@ const AppProvider = ({ children }) => {
     imgUrl = `${data.images.secure_base_url}w300`;
   };
 
+  const fetchGenres = async () => {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`
+    );
+    const data = await res.json();
+    const { genres } = data;
+    setGenres(genres);
+  };
+
+  useEffect(() => fetchGenres(), []);
   // fetch data when serach term changes
   useEffect(() => {
     fetchImgData();
@@ -84,8 +101,9 @@ const AppProvider = ({ children }) => {
         setMovies,
         myMovies,
         setMyMovies,
-        genre,
-        setGenre,
+        genres,
+        currentGenre,
+        setCurrentGenre,
       }}
     >
       {children}
